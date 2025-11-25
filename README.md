@@ -71,6 +71,8 @@ docker exec -it ollama nvidia-smi
 
 If the command prints the usual `nvidia-smi` table, the GPU is available to Ollama. If you see an error, double-check that your NVIDIA driver and the Container Toolkit are correctly installed.
 
+If Docker still fails to start the container with GPU support (e.g., `could not select device driver "nvidia"`), revisit the [NVIDIA Container Toolkit installation guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) to ensure every step on your platform has been completed.
+
 ## Volumes
 
 The following volumes are configured for data persistence:
