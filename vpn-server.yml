@@ -1,0 +1,28 @@
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      PUID: "1000"         # match your host user's UID for config ownership
+      PGID: "1000"         # match your host user's GID
+      TZ: "UTC"            # update to your timezone, e.g. America/New_York
+      SERVERURL: "auto"    # public IP or DNS name; use 'auto' for best-effort detection
+      SERVERPORT: "51820"
+      PEERS: "1"           # number of client configs to generate
+      PEERDNS: "auto"      # or pass a DNS server, e.g. 1.1.1.1
+      ALLOWEDIPS: "0.0.0.0/0,::/0" # route all traffic through the tunnel
+    volumes:
+      - wireguard_config:/config
+      - /lib/modules:/lib/modules:ro
+    ports:
+      - "51820:51820/udp"
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+
+volumes:
+  wireguard_config:
+    driver: local
